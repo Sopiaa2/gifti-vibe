@@ -14,7 +14,142 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      categories: {
+        Row: {
+          emoji: string
+          id: string
+          name: string
+          slug: string
+          sort_order: number
+        }
+        Insert: {
+          emoji: string
+          id?: string
+          name: string
+          slug: string
+          sort_order?: number
+        }
+        Update: {
+          emoji?: string
+          id?: string
+          name?: string
+          slug?: string
+          sort_order?: number
+        }
+        Relationships: []
+      }
+      gifticons: {
+        Row: {
+          brand: string
+          category_slug: string
+          created_at: string
+          id: string
+          image_url: string | null
+          name: string
+          prev_rank_bad: number | null
+          prev_rank_want: number | null
+          price: number
+          trend_badge: string | null
+          vote_count_bad: number
+          vote_count_want: number
+        }
+        Insert: {
+          brand: string
+          category_slug: string
+          created_at?: string
+          id?: string
+          image_url?: string | null
+          name: string
+          prev_rank_bad?: number | null
+          prev_rank_want?: number | null
+          price: number
+          trend_badge?: string | null
+          vote_count_bad?: number
+          vote_count_want?: number
+        }
+        Update: {
+          brand?: string
+          category_slug?: string
+          created_at?: string
+          id?: string
+          image_url?: string | null
+          name?: string
+          prev_rank_bad?: number | null
+          prev_rank_want?: number | null
+          price?: number
+          trend_badge?: string | null
+          vote_count_bad?: number
+          vote_count_want?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "gifticons_category_slug_fkey"
+            columns: ["category_slug"]
+            isOneToOne: false
+            referencedRelation: "categories"
+            referencedColumns: ["slug"]
+          },
+        ]
+      }
+      user_sessions: {
+        Row: {
+          created_at: string
+          daily_votes_limit: number
+          daily_votes_used: number
+          is_open_event: boolean
+          last_vote_date: string | null
+          session_id: string
+        }
+        Insert: {
+          created_at?: string
+          daily_votes_limit?: number
+          daily_votes_used?: number
+          is_open_event?: boolean
+          last_vote_date?: string | null
+          session_id: string
+        }
+        Update: {
+          created_at?: string
+          daily_votes_limit?: number
+          daily_votes_used?: number
+          is_open_event?: boolean
+          last_vote_date?: string | null
+          session_id?: string
+        }
+        Relationships: []
+      }
+      votes: {
+        Row: {
+          gifticon_id: string
+          id: string
+          session_id: string
+          vote_type: string
+          voted_at: string
+        }
+        Insert: {
+          gifticon_id: string
+          id?: string
+          session_id: string
+          vote_type: string
+          voted_at?: string
+        }
+        Update: {
+          gifticon_id?: string
+          id?: string
+          session_id?: string
+          vote_type?: string
+          voted_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "votes_gifticon_id_fkey"
+            columns: ["gifticon_id"]
+            isOneToOne: false
+            referencedRelation: "gifticons"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
