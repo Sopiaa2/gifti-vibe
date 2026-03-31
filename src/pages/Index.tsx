@@ -83,17 +83,24 @@ export default function Index() {
           ) : sortedGifticons.length === 0 ? (
             <EmptyState />
           ) : (
-            sortedGifticons.map((g, i) => (
-              <RankingCard
-                key={g.id}
-                gifticon={g}
-                rank={i + 1}
-                tab={activeTab}
-                voted={votedIds.has(`${g.id}_${activeTab}`)}
-                canVote={session.remainingVotes > 0}
-                onVote={() => vote(g.id, activeTab, g.name, g.brand)}
-              />
-            ))
+            <AnimatePresence mode="popLayout">
+              {sortedGifticons.map((g, i) => (
+                <motion.div
+                  key={g.id}
+                  layout
+                  transition={{ type: 'spring', stiffness: 500, damping: 35, mass: 0.8 }}
+                >
+                  <RankingCard
+                    gifticon={g}
+                    rank={i + 1}
+                    tab={activeTab}
+                    voted={votedIds.has(`${g.id}_${activeTab}`)}
+                    canVote={session.remainingVotes > 0}
+                    onVote={() => vote(g.id, activeTab, g.name, g.brand)}
+                  />
+                </motion.div>
+              ))}
+            </AnimatePresence>
           )}
 
           <VoteHistory todayVotes={todayVotes} gifticons={gifticons} activeTab={activeTab} />
