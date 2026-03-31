@@ -50,11 +50,13 @@ export default function Index() {
       ? [...gifticons]
       : gifticons.filter((g) => g.category_slug === activeCategory);
 
-    filtered.sort((a, b) =>
-      activeTab === 'want'
-        ? b.vote_count_want - a.vote_count_want
-        : b.vote_count_bad - a.vote_count_bad
-    );
+    filtered.sort((a, b) => {
+      const aCount = activeTab === 'want' ? a.vote_count_want : a.vote_count_bad;
+      const bCount = activeTab === 'want' ? b.vote_count_want : b.vote_count_bad;
+      if (bCount !== aCount) return bCount - aCount;
+      // Tiebreaker: most recently updated ranks higher
+      return new Date(b.updated_at || b.created_at).getTime() - new Date(a.updated_at || a.created_at).getTime();
+    });
     return filtered;
   }, [gifticons, activeCategory, activeTab]);
 
