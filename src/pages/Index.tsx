@@ -1,6 +1,5 @@
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { supabase } from '@/integrations/supabase/client';
 import { useSession } from '@/hooks/useSession';
 import { useGifticons } from '@/hooks/useGifticons';
 import { useVote } from '@/hooks/useVote';
@@ -19,10 +18,9 @@ import EmptyState from '@/components/EmptyState';
 export default function Index() {
   const [activeTab, setActiveTab] = useState<'want' | 'bad'>('want');
   const [activeCategory, setActiveCategory] = useState('all');
-  const [participantCount, setParticipantCount] = useState(1);
 
   const { session, consumeVote, refreshSession } = useSession();
-  const { gifticons, categories, loading, optimisticVote, revertVote } = useGifticons();
+  const { gifticons, categories, loading, participantCount, optimisticVote, revertVote } = useGifticons();
   const { vote, todayVotes, votedIds } = useVote(
     session.sessionId,
     session.remainingVotes,
@@ -31,15 +29,6 @@ export default function Index() {
     optimisticVote,
     revertVote
   );
-
-  useEffect(() => {
-    supabase
-      .from('user_sessions')
-      .select('session_id', { count: 'exact', head: true })
-      .then(({ count }) => {
-        setParticipantCount(Math.max(count || 0, 1));
-      });
-  }, []);
 
   const totalVotes = useMemo(
     () => gifticons.reduce((sum, g) => sum + g.vote_count_want + g.vote_count_bad, 0),

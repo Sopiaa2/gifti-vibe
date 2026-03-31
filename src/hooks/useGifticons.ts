@@ -21,20 +21,48 @@ export function useGifticons() {
   const [gifticons, setGifticons] = useState<Gifticon[]>([]);
   const [categories, setCategories] = useState<{ name: string; slug: string; emoji: string }[]>([]);
   const [loading, setLoading] = useState(true);
+  const [participantCount, setParticipantCount] = useState(1);
 
   const fetchData = useCallback(async () => {
     setLoading(true);
-    const [gifRes, catRes] = await Promise.all([
+    const [gifRes, catRes, sessRes] = await Promise.all([
       supabase.from('gifticons').select('*'),
       supabase.from('categories').select('*').order('sort_order'),
+      supabase.from('user_sessions').select('session_id', { count: 'exact', head: true }),
     ]);
     if (gifRes.data) setGifticons(gifRes.data);
     if (catRes.data) setCategories(catRes.data);
+    setParticipantCount(Math.max(sessRes.count || 0, 1));
     setLoading(false);
   }, []);
 
   useEffect(() => {
     fetchData();
+
+    const channel = supabase
+      .channel('realtime-rankings')
+      .on(
+        'postgres_changes',
+        { event: 'UPDATE', schema: 'public', table: 'gifticons' },
+        (payload) => {
+          const updated = payload.new as Gifticon;
+          setGifticons((prev) =>
+            prev.map((g) => (g.id === updated.id ? { ...g, ...updated } : g))
+          );
+        }
+      )
+      .on(
+        'postgres_changes',
+        { event: 'INSERT', schema: 'public', table: 'user_sessions' },
+        () => {
+          setParticipantCount((c) => c + 1);
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
   }, [fetchData]);
 
   const optimisticVote = useCallback(
@@ -71,5 +99,5 @@ export function useGifticons() {
     []
   );
 
-  return { gifticons, categories, loading, optimisticVote, revertVote, refetch: fetchData };
+  return { gifticons, categories, loading, participantCount, optimisticVote, revertVote, refetch: fetchData };
 }
