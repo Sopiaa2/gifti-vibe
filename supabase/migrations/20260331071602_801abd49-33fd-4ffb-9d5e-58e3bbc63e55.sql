@@ -1,0 +1,1 @@
+CREATE POLICY "Votes deletable by everyone" ON public.votes FOR DELETE TO public USING (true);

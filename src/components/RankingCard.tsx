@@ -88,7 +88,7 @@ export default function RankingCard({ gifticon, rank, tab, voted, canVote, onVot
   }
 
   return (
-    <div className="bg-card rounded-2xl shadow-sm mx-4 mb-2 px-4 py-3 flex items-center gap-3 min-h-[80px] transition-all duration-150">
+    <div className="bg-card rounded-2xl shadow-sm mx-4 mb-2 px-4 py-3 flex items-center gap-3 min-h-[80px] transition-all duration-200">
       {/* Rank */}
       <div className="flex flex-col items-center w-10 flex-shrink-0">
         <span className={`font-bold leading-none ${rankColor}`}>{rank}</span>

@@ -12,6 +12,7 @@ import RankingCard from '@/components/RankingCard';
 import SkeletonCards from '@/components/SkeletonCards';
 import VoteHistory from '@/components/VoteHistory';
 import BottomNav from '@/components/BottomNav';
+import DevResetButton from '@/components/DevResetButton';
 import EmptyState from '@/components/EmptyState';
 
 export default function Index() {
@@ -92,10 +93,18 @@ export default function Index() {
             ))
           )}
 
-          <VoteHistory todayVotes={todayVotes} />
+          <VoteHistory todayVotes={todayVotes} gifticons={gifticons} activeTab={activeTab} />
+
+          {/* Rank reorder hint for voted cards */}
+          {todayVotes.length > 0 && (
+            <p className="text-center text-[11px] text-muted-foreground mt-2 mb-4">
+              투표 후 순위가 바뀔 수 있어요 ↕️
+            </p>
+          )}
         </div>
       </div>
 
+      <DevResetButton sessionId={session.sessionId} />
       <BottomNav activeItem="home" />
     </div>
   );
