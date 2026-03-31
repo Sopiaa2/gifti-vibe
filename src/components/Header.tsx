@@ -1,3 +1,5 @@
+import { toast } from 'sonner';
+
 interface HeaderProps {
   remainingVotes: number;
 }
@@ -8,7 +10,6 @@ export default function Header({ remainingVotes }: HeaderProps) {
   );
 
   const handleTicketTap = () => {
-    const { toast } = require('sonner');
     toast(`오늘 ${remainingVotes}표 남았어요. 자정에 충전돼요 🕛`);
   };
 
