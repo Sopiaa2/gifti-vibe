@@ -99,7 +99,7 @@ export function useVote(
         if (current) {
           await supabase
             .from('gifticons')
-            .update({ [field]: (current as Record<string, number>)[field] + 1 })
+            .update({ [field]: (current as Record<string, number>)[field] + 1, updated_at: new Date().toISOString() })
             .eq('id', gifticonId);
         }
 
