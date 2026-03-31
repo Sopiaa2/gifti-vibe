@@ -50,6 +50,7 @@ export type Database = {
           prev_rank_want: number | null
           price: number
           trend_badge: string | null
+          updated_at: string
           vote_count_bad: number
           vote_count_want: number
         }
@@ -64,6 +65,7 @@ export type Database = {
           prev_rank_want?: number | null
           price: number
           trend_badge?: string | null
+          updated_at?: string
           vote_count_bad?: number
           vote_count_want?: number
         }
@@ -78,6 +80,7 @@ export type Database = {
           prev_rank_want?: number | null
           price?: number
           trend_badge?: string | null
+          updated_at?: string
           vote_count_bad?: number
           vote_count_want?: number
         }

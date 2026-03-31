@@ -1,0 +1,1 @@
+ALTER TABLE public.gifticons ADD COLUMN updated_at timestamptz NOT NULL DEFAULT now();
