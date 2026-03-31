@@ -35,6 +35,31 @@ export function useGifticons() {
 
   useEffect(() => {
     fetchData();
+
+    const channel = supabase
+      .channel('realtime-rankings')
+      .on(
+        'postgres_changes',
+        { event: 'UPDATE', schema: 'public', table: 'gifticons' },
+        (payload) => {
+          const updated = payload.new as Gifticon;
+          setGifticons((prev) =>
+            prev.map((g) => (g.id === updated.id ? { ...g, ...updated } : g))
+          );
+        }
+      )
+      .on(
+        'postgres_changes',
+        { event: 'INSERT', schema: 'public', table: 'user_sessions' },
+        () => {
+          setParticipantCount((c) => c + 1);
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
   }, [fetchData]);
 
   const optimisticVote = useCallback(
