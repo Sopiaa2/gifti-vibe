@@ -9,10 +9,17 @@ interface VoteRecord {
   gifticon_brand?: string;
 }
 
+function getKSTDate(): string {
+  const now = new Date();
+  const kst = new Date(now.getTime() + 9 * 60 * 60 * 1000);
+  return kst.toISOString().split('T')[0];
+}
+
 export function useVote(
   sessionId: string,
   remainingVotes: number,
   consumeVote: () => Promise<void>,
+  refreshSession: () => Promise<void>,
   optimisticVote: (id: string, type: 'want' | 'bad') => void,
   revertVote: (id: string, type: 'want' | 'bad') => void
 ) {
@@ -21,9 +28,7 @@ export function useVote(
 
   const loadTodayVotes = useCallback(async () => {
     if (!sessionId) return;
-    const todayStart = new Date();
-    todayStart.setHours(todayStart.getHours() + 9); // KST
-    const dateStr = todayStart.toISOString().split('T')[0];
+    const dateStr = getKSTDate();
 
     const { data } = await supabase
       .from('votes')
@@ -48,12 +53,35 @@ export function useVote(
         toast('이미 공감했어요!');
         return;
       }
-      if (remainingVotes <= 0) {
+
+      // Re-fetch session from DB to get accurate vote count
+      const todayKST = getKSTDate();
+      const { data: sessionData } = await supabase
+        .from('user_sessions')
+        .select('*')
+        .eq('session_id', sessionId)
+        .single();
+
+      if (!sessionData) return;
+
+      let currentUsed = sessionData.daily_votes_used;
+
+      // Reset if new day
+      if (sessionData.last_vote_date !== todayKST) {
+        currentUsed = 0;
+        await supabase
+          .from('user_sessions')
+          .update({ daily_votes_used: 0, last_vote_date: todayKST })
+          .eq('session_id', sessionId);
+      }
+
+      if (currentUsed >= sessionData.daily_votes_limit) {
         toast('오늘 투표를 모두 사용했어요 🎟️ 자정에 충전돼요!');
+        await refreshSession();
         return;
       }
 
-      // Optimistic
+      // Now do optimistic UI
       optimisticVote(gifticonId, voteType);
       setVotedIds((prev) => new Set(prev).add(key));
       setTodayVotes((prev) => [...prev, { gifticon_id: gifticonId, vote_type: voteType, gifticon_name: name, gifticon_brand: brand }]);
@@ -76,6 +104,7 @@ export function useVote(
         }
 
         await consumeVote();
+        await refreshSession();
       } catch {
         revertVote(gifticonId, voteType);
         setVotedIds((prev) => {
@@ -84,10 +113,11 @@ export function useVote(
           return next;
         });
         setTodayVotes((prev) => prev.filter((v) => !(v.gifticon_id === gifticonId && v.vote_type === voteType)));
+        await refreshSession();
         toast('잠시 후 다시 시도해주세요');
       }
     },
-    [sessionId, remainingVotes, votedIds, consumeVote, optimisticVote, revertVote]
+    [sessionId, votedIds, consumeVote, refreshSession, optimisticVote, revertVote]
   );
 
   return { vote, todayVotes, votedIds };
