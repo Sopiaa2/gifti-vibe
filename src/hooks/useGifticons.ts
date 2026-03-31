@@ -21,6 +21,7 @@ export function useGifticons() {
   const [gifticons, setGifticons] = useState<Gifticon[]>([]);
   const [categories, setCategories] = useState<{ name: string; slug: string; emoji: string }[]>([]);
   const [loading, setLoading] = useState(true);
+  const [participantCount, setParticipantCount] = useState(1);
 
   const fetchData = useCallback(async () => {
     setLoading(true);
