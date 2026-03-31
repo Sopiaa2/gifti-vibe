@@ -22,6 +22,14 @@ export default function Index() {
 
   const { session, consumeVote, refreshSession } = useSession();
   const { gifticons, categories, loading, participantCount, optimisticVote, revertVote } = useGifticons();
+  const { vote, todayVotes, votedIds } = useVote(
+    session.sessionId,
+    session.remainingVotes,
+    consumeVote,
+    refreshSession,
+    optimisticVote,
+    revertVote
+  );
 
   const totalVotes = useMemo(
     () => gifticons.reduce((sum, g) => sum + g.vote_count_want + g.vote_count_bad, 0),
