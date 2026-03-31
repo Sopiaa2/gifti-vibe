@@ -9,7 +9,35 @@ export default function DevResetButton({ sessionId }: DevResetButtonProps) {
   const handleReset = async () => {
     if (!sessionId) return;
 
+    // 1. Fetch all votes for this session
+    const { data: votes } = await supabase
+      .from('votes')
+      .select('gifticon_id, vote_type')
+      .eq('session_id', sessionId);
+
+    // 2. Decrement vote counts for each vote
+    if (votes && votes.length > 0) {
+      for (const v of votes) {
+        const field = v.vote_type === 'want' ? 'vote_count_want' : 'vote_count_bad';
+        const { data: current } = await supabase
+          .from('gifticons')
+          .select(field)
+          .eq('id', v.gifticon_id)
+          .single();
+        if (current) {
+          const newVal = Math.max(0, (current as Record<string, number>)[field] - 1);
+          await supabase
+            .from('gifticons')
+            .update({ [field]: newVal })
+            .eq('id', v.gifticon_id);
+        }
+      }
+    }
+
+    // 3. Delete votes
     await supabase.from('votes').delete().eq('session_id', sessionId);
+
+    // 4. Reset session
     await supabase
       .from('user_sessions')
       .update({ daily_votes_used: 0, last_vote_date: null })
