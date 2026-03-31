@@ -19,27 +19,9 @@ import EmptyState from '@/components/EmptyState';
 export default function Index() {
   const [activeTab, setActiveTab] = useState<'want' | 'bad'>('want');
   const [activeCategory, setActiveCategory] = useState('all');
-  const [participantCount, setParticipantCount] = useState(1);
 
   const { session, consumeVote, refreshSession } = useSession();
-  const { gifticons, categories, loading, optimisticVote, revertVote } = useGifticons();
-  const { vote, todayVotes, votedIds } = useVote(
-    session.sessionId,
-    session.remainingVotes,
-    consumeVote,
-    refreshSession,
-    optimisticVote,
-    revertVote
-  );
-
-  useEffect(() => {
-    supabase
-      .from('user_sessions')
-      .select('session_id', { count: 'exact', head: true })
-      .then(({ count }) => {
-        setParticipantCount(Math.max(count || 0, 1));
-      });
-  }, []);
+  const { gifticons, categories, loading, participantCount, optimisticVote, revertVote } = useGifticons();
 
   const totalVotes = useMemo(
     () => gifticons.reduce((sum, g) => sum + g.vote_count_want + g.vote_count_bad, 0),
