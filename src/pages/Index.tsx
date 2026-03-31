@@ -93,10 +93,18 @@ export default function Index() {
             ))
           )}
 
-          <VoteHistory todayVotes={todayVotes} />
+          <VoteHistory todayVotes={todayVotes} gifticons={gifticons} activeTab={activeTab} />
+
+          {/* Rank reorder hint for voted cards */}
+          {todayVotes.length > 0 && (
+            <p className="text-center text-[11px] text-muted-foreground mt-2 mb-4">
+              투표 후 순위가 바뀔 수 있어요 ↕️
+            </p>
+          )}
         </div>
       </div>
 
+      <DevResetButton sessionId={session.sessionId} />
       <BottomNav activeItem="home" />
     </div>
   );
