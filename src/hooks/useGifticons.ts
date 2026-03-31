@@ -99,5 +99,5 @@ export function useGifticons() {
     []
   );
 
-  return { gifticons, categories, loading, optimisticVote, revertVote, refetch: fetchData };
+  return { gifticons, categories, loading, participantCount, optimisticVote, revertVote, refetch: fetchData };
 }
