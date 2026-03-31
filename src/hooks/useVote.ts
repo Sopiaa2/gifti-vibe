@@ -1,0 +1,94 @@
+import { useState, useEffect, useCallback } from 'react';
+import { supabase } from '@/integrations/supabase/client';
+import { toast } from 'sonner';
+
+interface VoteRecord {
+  gifticon_id: string;
+  vote_type: string;
+  gifticon_name?: string;
+  gifticon_brand?: string;
+}
+
+export function useVote(
+  sessionId: string,
+  remainingVotes: number,
+  consumeVote: () => Promise<void>,
+  optimisticVote: (id: string, type: 'want' | 'bad') => void,
+  revertVote: (id: string, type: 'want' | 'bad') => void
+) {
+  const [todayVotes, setTodayVotes] = useState<VoteRecord[]>([]);
+  const [votedIds, setVotedIds] = useState<Set<string>>(new Set());
+
+  const loadTodayVotes = useCallback(async () => {
+    if (!sessionId) return;
+    const todayStart = new Date();
+    todayStart.setHours(todayStart.getHours() + 9); // KST
+    const dateStr = todayStart.toISOString().split('T')[0];
+
+    const { data } = await supabase
+      .from('votes')
+      .select('gifticon_id, vote_type')
+      .eq('session_id', sessionId)
+      .gte('voted_at', `${dateStr}T00:00:00+09:00`);
+
+    if (data) {
+      setTodayVotes(data);
+      setVotedIds(new Set(data.map((v) => `${v.gifticon_id}_${v.vote_type}`)));
+    }
+  }, [sessionId]);
+
+  useEffect(() => {
+    loadTodayVotes();
+  }, [loadTodayVotes]);
+
+  const vote = useCallback(
+    async (gifticonId: string, voteType: 'want' | 'bad', name: string, brand: string) => {
+      const key = `${gifticonId}_${voteType}`;
+      if (votedIds.has(key)) {
+        toast('이미 공감했어요!');
+        return;
+      }
+      if (remainingVotes <= 0) {
+        toast('오늘 투표를 모두 사용했어요 🎟️ 자정에 충전돼요!');
+        return;
+      }
+
+      // Optimistic
+      optimisticVote(gifticonId, voteType);
+      setVotedIds((prev) => new Set(prev).add(key));
+      setTodayVotes((prev) => [...prev, { gifticon_id: gifticonId, vote_type: voteType, gifticon_name: name, gifticon_brand: brand }]);
+
+      try {
+        const { error: voteError } = await supabase.from('votes').insert({
+          gifticon_id: gifticonId,
+          session_id: sessionId,
+          vote_type: voteType,
+        });
+        if (voteError) throw voteError;
+
+        const field = voteType === 'want' ? 'vote_count_want' : 'vote_count_bad';
+        const { data: current } = await supabase.from('gifticons').select(field).eq('id', gifticonId).single();
+        if (current) {
+          await supabase
+            .from('gifticons')
+            .update({ [field]: (current as Record<string, number>)[field] + 1 })
+            .eq('id', gifticonId);
+        }
+
+        await consumeVote();
+      } catch {
+        revertVote(gifticonId, voteType);
+        setVotedIds((prev) => {
+          const next = new Set(prev);
+          next.delete(key);
+          return next;
+        });
+        setTodayVotes((prev) => prev.filter((v) => !(v.gifticon_id === gifticonId && v.vote_type === voteType)));
+        toast('잠시 후 다시 시도해주세요');
+      }
+    },
+    [sessionId, remainingVotes, votedIds, consumeVote, optimisticVote, revertVote]
+  );
+
+  return { vote, todayVotes, votedIds };
+}
