@@ -13,6 +13,8 @@ export interface Gifticon {
   vote_count_bad: number;
   prev_rank_want: number | null;
   prev_rank_bad: number | null;
+  updated_at: string;
+  created_at: string;
 }
 
 export function useGifticons() {
