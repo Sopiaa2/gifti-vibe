@@ -1,7 +1,7 @@
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { supabase } from '@/integrations/supabase/client';
 import { useSession } from '@/hooks/useSession';
+import { useGifticons } from '@/hooks/useGifticons';
 import { useGifticons } from '@/hooks/useGifticons';
 import { useVote } from '@/hooks/useVote';
 import Header from '@/components/Header';
