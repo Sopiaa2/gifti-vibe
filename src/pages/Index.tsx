@@ -19,20 +19,9 @@ export default function Index() {
   const [activeCategory, setActiveCategory] = useState('all');
   const [participantCount, setParticipantCount] = useState(0);
 
-  const { session } = useSession();
+  const { session, consumeVote } = useSession();
   const { gifticons, categories, loading, optimisticVote, revertVote } = useGifticons();
   const { vote, todayVotes, votedIds } = useVote(
-    session.sessionId,
-    session.remainingVotes,
-    async () => {},
-    optimisticVote,
-    revertVote
-  );
-
-  // We need consumeVote in useVote but also need useSession's consumeVote
-  // Let's restructure: pass session's consumeVote
-  const { consumeVote } = useSession();
-  const voteHook = useVote(
     session.sessionId,
     session.remainingVotes,
     consumeVote,
@@ -55,7 +44,7 @@ export default function Index() {
   );
 
   const sortedGifticons = useMemo(() => {
-    let filtered = activeCategory === 'all'
+    const filtered = activeCategory === 'all'
       ? [...gifticons]
       : gifticons.filter((g) => g.category_slug === activeCategory);
 
@@ -95,14 +84,14 @@ export default function Index() {
                 gifticon={g}
                 rank={i + 1}
                 tab={activeTab}
-                voted={voteHook.votedIds.has(`${g.id}_${activeTab}`)}
+                voted={votedIds.has(`${g.id}_${activeTab}`)}
                 canVote={session.remainingVotes > 0}
-                onVote={() => voteHook.vote(g.id, activeTab, g.name, g.brand)}
+                onVote={() => vote(g.id, activeTab, g.name, g.brand)}
               />
             ))
           )}
 
-          <VoteHistory todayVotes={voteHook.todayVotes} />
+          <VoteHistory todayVotes={todayVotes} />
         </div>
       </div>
 
