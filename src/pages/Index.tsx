@@ -14,6 +14,7 @@ import VoteHistory from '@/components/VoteHistory';
 import BottomNav from '@/components/BottomNav';
 import DevResetButton from '@/components/DevResetButton';
 import EmptyState from '@/components/EmptyState';
+import ShareButton from '@/components/ShareButton';
 
 export default function Index() {
   const [activeTab, setActiveTab] = useState<'want' | 'bad'>('want');
@@ -103,6 +104,7 @@ export default function Index() {
         </div>
       </div>
 
+      <ShareButton />
       <DevResetButton sessionId={session.sessionId} />
       <BottomNav activeItem="home" />
     </div>
