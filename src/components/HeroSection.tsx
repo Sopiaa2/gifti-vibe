@@ -9,7 +9,7 @@ export default function HeroSection({ totalVotes }: HeroProps) {
         선물하기 전에 꼭 확인하세요 👀
       </p>
       <p className="text-xs text-muted-foreground mt-1">
-        받고 싶은 기프티콘과 피해야 할 기프티콘 실시간 순위
+        지금 투표하고 순위를 만들어가세요
       </p>
       <p className="text-xs text-primary mt-1 font-medium">
         총 {totalVotes.toLocaleString()}표 집계됨
