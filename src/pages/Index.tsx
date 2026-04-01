@@ -104,6 +104,7 @@ export default function Index() {
         </div>
       </div>
 
+      <ShareButton />
       <DevResetButton sessionId={session.sessionId} />
       <BottomNav activeItem="home" />
     </div>
