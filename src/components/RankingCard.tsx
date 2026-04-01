@@ -96,8 +96,26 @@ export default function RankingCard({ gifticon, rank, tab, voted, canVote, onVot
       </div>
 
       {/* Brand icon */}
-      <div className="w-12 h-12 rounded-full bg-muted flex items-center justify-center flex-shrink-0">
-        <span className="text-lg font-bold text-muted-foreground">{brandInitial}</span>
+      <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center flex-shrink-0 overflow-hidden">
+        {gifticon.image_url ? (
+          <img
+            src={gifticon.image_url}
+            alt={gifticon.brand}
+            className="w-full h-full object-contain p-1"
+            onError={(e) => {
+              const target = e.currentTarget;
+              target.style.display = 'none';
+              const fallback = target.nextElementSibling as HTMLElement;
+              if (fallback) fallback.style.display = 'flex';
+            }}
+          />
+        ) : null}
+        <span
+          className="text-lg font-bold text-muted-foreground items-center justify-center"
+          style={{ display: gifticon.image_url ? 'none' : 'flex' }}
+        >
+          {brandInitial}
+        </span>
       </div>
 
       {/* Info */}
