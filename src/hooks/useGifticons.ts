@@ -8,6 +8,8 @@ export interface Gifticon {
   category_slug: string;
   price: number;
   image_url: string | null;
+  product_image_url: string | null;
+  brand_logo_url: string | null;
   trend_badge: string | null;
   vote_count_want: number;
   vote_count_bad: number;
