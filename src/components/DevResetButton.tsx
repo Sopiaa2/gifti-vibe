@@ -28,7 +28,7 @@ export default function DevResetButton({ sessionId }: DevResetButtonProps) {
           const newVal = Math.max(0, (current as Record<string, number>)[field] - 1);
           await supabase
             .from('gifticons')
-            .update({ [field]: newVal })
+            .update({ [field]: newVal } as any)
             .eq('id', v.gifticon_id);
         }
       }
