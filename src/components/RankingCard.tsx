@@ -95,27 +95,46 @@ export default function RankingCard({ gifticon, rank, tab, voted, canVote, onVot
         <span className="mt-0.5">{getRankChange(rank, prevRank)}</span>
       </div>
 
-      {/* Brand icon */}
-      <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center flex-shrink-0 overflow-hidden">
-        {gifticon.image_url ? (
-          <img
-            src={gifticon.image_url}
-            alt={gifticon.brand}
-            className="w-full h-full object-contain p-1"
-            onError={(e) => {
-              const target = e.currentTarget;
-              target.style.display = 'none';
-              const fallback = target.nextElementSibling as HTMLElement;
-              if (fallback) fallback.style.display = 'flex';
-            }}
-          />
-        ) : null}
-        <span
-          className="text-lg font-bold text-muted-foreground items-center justify-center"
-          style={{ display: gifticon.image_url ? 'none' : 'flex' }}
-        >
-          {brandInitial}
-        </span>
+      {/* Product + Brand logo */}
+      <div className="relative w-14 h-14 flex-shrink-0">
+        {/* Big circle - product image */}
+        <div className="w-14 h-14 rounded-full overflow-hidden flex items-center justify-center"
+          style={{ background: '#f3f3f3', border: '1.5px solid #eee' }}>
+          {gifticon.product_image_url ? (
+            <img
+              src={gifticon.product_image_url}
+              alt={gifticon.name}
+              className="w-full h-full object-cover"
+              onError={(e) => {
+                const target = e.currentTarget;
+                target.style.display = 'none';
+                const fallback = target.nextElementSibling as HTMLElement;
+                if (fallback) fallback.style.display = 'flex';
+              }}
+            />
+          ) : null}
+          <span
+            className="text-lg font-bold text-muted-foreground items-center justify-center"
+            style={{ display: gifticon.product_image_url ? 'none' : 'flex' }}
+          >
+            {brandInitial}
+          </span>
+        </div>
+        {/* Small circle - brand logo */}
+        {gifticon.brand_logo_url && (
+          <div className="absolute rounded-full overflow-hidden bg-white flex items-center justify-center"
+            style={{ bottom: '-2px', right: '-2px', width: '22px', height: '22px', border: '2px solid white', boxShadow: '0 1px 3px rgba(0,0,0,0.15)' }}>
+            <img
+              src={gifticon.brand_logo_url}
+              alt={gifticon.brand}
+              className="w-full h-full object-contain p-0.5"
+              onError={(e) => {
+                const wrapper = e.currentTarget.parentElement;
+                if (wrapper) wrapper.style.display = 'none';
+              }}
+            />
+          </div>
+        )}
       </div>
 
       {/* Info */}

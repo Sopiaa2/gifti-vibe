@@ -41,6 +41,7 @@ export type Database = {
       gifticons: {
         Row: {
           brand: string
+          brand_logo_url: string | null
           category_slug: string
           created_at: string
           id: string
@@ -49,6 +50,7 @@ export type Database = {
           prev_rank_bad: number | null
           prev_rank_want: number | null
           price: number
+          product_image_url: string | null
           trend_badge: string | null
           updated_at: string
           vote_count_bad: number
@@ -56,6 +58,7 @@ export type Database = {
         }
         Insert: {
           brand: string
+          brand_logo_url?: string | null
           category_slug: string
           created_at?: string
           id?: string
@@ -64,6 +67,7 @@ export type Database = {
           prev_rank_bad?: number | null
           prev_rank_want?: number | null
           price: number
+          product_image_url?: string | null
           trend_badge?: string | null
           updated_at?: string
           vote_count_bad?: number
@@ -71,6 +75,7 @@ export type Database = {
         }
         Update: {
           brand?: string
+          brand_logo_url?: string | null
           category_slug?: string
           created_at?: string
           id?: string
@@ -79,6 +84,7 @@ export type Database = {
           prev_rank_bad?: number | null
           prev_rank_want?: number | null
           price?: number
+          product_image_url?: string | null
           trend_badge?: string | null
           updated_at?: string
           vote_count_bad?: number

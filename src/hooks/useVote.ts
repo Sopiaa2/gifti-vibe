@@ -97,9 +97,13 @@ export function useVote(
         const field = voteType === 'want' ? 'vote_count_want' : 'vote_count_bad';
         const { data: current } = await supabase.from('gifticons').select(field).eq('id', gifticonId).single();
         if (current) {
+          const updateData: Record<string, string | number> = {
+            [field]: (current as Record<string, number>)[field] + 1,
+            updated_at: new Date().toISOString(),
+          };
           await supabase
             .from('gifticons')
-            .update({ [field]: (current as Record<string, number>)[field] + 1, updated_at: new Date().toISOString() })
+            .update(updateData as any)
             .eq('id', gifticonId);
         }
 
