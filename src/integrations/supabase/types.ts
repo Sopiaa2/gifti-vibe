@@ -100,6 +100,36 @@ export type Database = {
           },
         ]
       }
+      suggestions: {
+        Row: {
+          brand: string
+          created_at: string
+          id: string
+          name: string
+          price_range: string
+          session_id: string
+          vote_count: number
+        }
+        Insert: {
+          brand: string
+          created_at?: string
+          id?: string
+          name: string
+          price_range: string
+          session_id: string
+          vote_count?: number
+        }
+        Update: {
+          brand?: string
+          created_at?: string
+          id?: string
+          name?: string
+          price_range?: string
+          session_id?: string
+          vote_count?: number
+        }
+        Relationships: []
+      }
       user_sessions: {
         Row: {
           created_at: string
