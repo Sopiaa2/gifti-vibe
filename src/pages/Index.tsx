@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useCallback } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useSession } from '@/hooks/useSession';
 import { useGifticons } from '@/hooks/useGifticons';
@@ -15,10 +15,17 @@ import BottomNav from '@/components/BottomNav';
 
 import EmptyState from '@/components/EmptyState';
 import ShareButton from '@/components/ShareButton';
+import SuggestButton from '@/components/SuggestButton';
+import SuggestionsList from '@/components/SuggestionsList';
 
 export default function Index() {
   const [activeTab, setActiveTab] = useState<'want' | 'bad'>('want');
   const [activeCategory, setActiveCategory] = useState('all');
+  const [suggestionsRefreshKey, setSuggestionsRefreshKey] = useState(0);
+
+  const handleSuggestionAdded = useCallback(() => {
+    setSuggestionsRefreshKey((k) => k + 1);
+  }, []);
 
   const { session, consumeVote, refreshSession } = useSession();
   const { gifticons, categories, loading, participantCount, optimisticVote, revertVote } = useGifticons();
@@ -95,6 +102,8 @@ export default function Index() {
 
           <VoteHistory todayVotes={todayVotes} gifticons={gifticons} activeTab={activeTab} />
 
+          <SuggestionsList sessionId={session.sessionId} refreshKey={suggestionsRefreshKey} />
+
           {/* Rank reorder hint for voted cards */}
           {todayVotes.length > 0 && (
             <p className="text-center text-[11px] text-muted-foreground mt-2 mb-4">
@@ -104,6 +113,7 @@ export default function Index() {
         </div>
       </div>
 
+      <SuggestButton sessionId={session.sessionId} onSuggestionAdded={handleSuggestionAdded} />
       <ShareButton />
       
       <BottomNav activeItem="home" />
