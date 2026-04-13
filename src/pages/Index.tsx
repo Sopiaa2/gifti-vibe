@@ -12,7 +12,7 @@ import RankingCard from '@/components/RankingCard';
 import SkeletonCards from '@/components/SkeletonCards';
 import VoteHistory from '@/components/VoteHistory';
 import BottomNav from '@/components/BottomNav';
-import DevResetButton from '@/components/DevResetButton';
+
 import EmptyState from '@/components/EmptyState';
 import ShareButton from '@/components/ShareButton';
 
@@ -105,7 +105,7 @@ export default function Index() {
       </div>
 
       <ShareButton />
-      <DevResetButton sessionId={session.sessionId} />
+      
       <BottomNav activeItem="home" />
     </div>
   );
