@@ -5,7 +5,7 @@ import { useGifticons } from '@/hooks/useGifticons';
 import { useVote } from '@/hooks/useVote';
 import Header from '@/components/Header';
 import EventBanner from '@/components/EventBanner';
-import HeroSection from '@/components/HeroSection';
+
 import MainTabs from '@/components/MainTabs';
 import CategoryFilter from '@/components/CategoryFilter';
 import RankingCard from '@/components/RankingCard';
