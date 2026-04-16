@@ -42,11 +42,6 @@ export default function Index() {
     revertVote
   );
 
-  const totalVotes = useMemo(
-    () => gifticons.reduce((sum, g) => sum + g.vote_count_want + g.vote_count_bad, 0),
-    [gifticons]
-  );
-
   const sortedGifticons = useMemo(() => {
     const filtered = activeCategory === 'all'
       ? [...gifticons]
