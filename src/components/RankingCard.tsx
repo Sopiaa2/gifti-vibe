@@ -161,9 +161,6 @@ export default function RankingCard({ gifticon, rank, tab, voted, canVote, onVot
           <span className={`text-sm font-medium ${tab === 'want' ? 'text-primary' : 'text-muted-foreground'}`}>
             {gifticon.price.toLocaleString()}원
           </span>
-          <span className="text-[11px] text-muted-foreground">
-            · {tab === 'want' ? '원하는 사람' : '별로예요'}
-          </span>
         </div>
       </div>
 
