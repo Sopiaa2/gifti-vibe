@@ -183,22 +183,28 @@ export default function RankingCard({ gifticon, rank, tab, voted, canVote, onVot
       </div>
 
       {/* Vote */}
-      <button
-        onClick={handleVote}
-        disabled={voted || !canVote}
-        className={`flex flex-col items-center min-w-[56px] min-h-[44px] justify-center ${voteStyle}`}
-      >
-        <span className="text-xl">{voteEmoji}</span>
-        <motion.span
-          key={voteCount}
-          animate={animateCount ? { scale: [1, 1.4, 1] } : {}}
-          transition={{ duration: 0.3 }}
-          className="text-xs font-medium"
+      <div className="flex flex-col items-center gap-0.5 min-w-[60px] flex-shrink-0">
+        <button
+          onClick={handleVote}
+          disabled={voted || !canVote}
+          className={`flex flex-col items-center justify-center w-[52px] h-[52px] rounded-xl transition-colors ${
+            voted
+              ? tab === 'want' ? 'bg-primary/10' : 'bg-secondary/10'
+              : 'hover:bg-muted/50'
+          } ${voteStyle}`}
         >
-          {voteCount}
-        </motion.span>
-        <span className="text-[10px]">{voteLabel}</span>
-      </button>
+          <span className="text-xl leading-none">{voteEmoji}</span>
+          <motion.span
+            key={voteCount}
+            animate={animateCount ? { scale: [1, 1.4, 1] } : {}}
+            transition={{ duration: 0.3 }}
+            className="text-xs font-medium leading-tight mt-0.5"
+          >
+            {voteCount}
+          </motion.span>
+        </button>
+        <span className={`text-[10px] leading-none whitespace-nowrap ${voteStyle}`}>{voteLabel}</span>
+      </div>
     </div>
   );
 }

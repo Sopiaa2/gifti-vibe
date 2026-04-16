@@ -17,6 +17,8 @@ import EmptyState from '@/components/EmptyState';
 import ShareButton from '@/components/ShareButton';
 import SuggestButton from '@/components/SuggestButton';
 import SuggestionsList from '@/components/SuggestionsList';
+import HeartBurst from '@/components/HeartBurst';
+import VoteGuide from '@/components/VoteGuide';
 
 export default function Index() {
   const [activeTab, setActiveTab] = useState<'want' | 'bad'>('want');
