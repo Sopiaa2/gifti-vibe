@@ -24,6 +24,7 @@ export default function Index() {
   const [activeTab, setActiveTab] = useState<'want' | 'bad'>('want');
   const [activeCategory, setActiveCategory] = useState('all');
   const [suggestionsRefreshKey, setSuggestionsRefreshKey] = useState(0);
+  const [heartBurstTrigger, setHeartBurstTrigger] = useState(0);
 
   const handleSuggestionAdded = useCallback(() => {
     setSuggestionsRefreshKey((k) => k + 1);
@@ -76,6 +77,7 @@ export default function Index() {
           accentTab={activeTab}
         />
 
+        <VoteGuide />
         <div className="pt-2 pb-[140px]">
           {loading ? (
             <SkeletonCards />
@@ -95,7 +97,12 @@ export default function Index() {
                     tab={activeTab}
                     voted={votedIds.has(`${g.id}_${activeTab}`)}
                     canVote={session.remainingVotes > 0}
-                    onVote={() => vote(g.id, activeTab, g.name, g.brand)}
+                    onVote={() => {
+                      vote(g.id, activeTab, g.name, g.brand);
+                      if (!votedIds.has(`${g.id}_${activeTab}`) && session.remainingVotes > 0) {
+                        setHeartBurstTrigger((t) => t + 1);
+                      }
+                    }}
                   />
                 </motion.div>
               ))}
