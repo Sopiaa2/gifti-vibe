@@ -34,7 +34,8 @@ export default function Index() {
   const { gifticons, categories, loading, participantCount, optimisticVote, revertVote } = useGifticons();
   const { vote, todayVotes, votedIds } = useVote(
     session.sessionId,
-    session.remainingVotes,
+    session.remainingWantVotes,
+    session.remainingBadVotes,
     consumeVote,
     refreshSession,
     optimisticVote,
@@ -55,17 +56,18 @@ export default function Index() {
       const aCount = activeTab === 'want' ? a.vote_count_want : a.vote_count_bad;
       const bCount = activeTab === 'want' ? b.vote_count_want : b.vote_count_bad;
       if (bCount !== aCount) return bCount - aCount;
-      // Tiebreaker: most recently updated ranks higher
       return new Date(b.updated_at || b.created_at).getTime() - new Date(a.updated_at || a.created_at).getTime();
     });
     return filtered;
   }, [gifticons, activeCategory, activeTab]);
 
+  const currentRemaining = activeTab === 'want' ? session.remainingWantVotes : session.remainingBadVotes;
+
   return (
     <div className="min-h-screen bg-background max-w-[480px] mx-auto relative">
-      <Header remainingVotes={session.remainingVotes} />
+      <Header remainingWantVotes={session.remainingWantVotes} remainingBadVotes={session.remainingBadVotes} />
 
-      <div className="pt-[72px]">
+      <div className="pt-[88px]">
         <EventBanner participantCount={participantCount} />
         <HeroSection totalVotes={totalVotes} />
 
@@ -96,10 +98,10 @@ export default function Index() {
                     rank={i + 1}
                     tab={activeTab}
                     voted={votedIds.has(`${g.id}_${activeTab}`)}
-                    canVote={session.remainingVotes > 0}
+                    canVote={currentRemaining > 0}
                     onVote={() => {
                       vote(g.id, activeTab, g.name, g.brand);
-                      if (!votedIds.has(`${g.id}_${activeTab}`) && session.remainingVotes > 0) {
+                      if (!votedIds.has(`${g.id}_${activeTab}`) && currentRemaining > 0) {
                         setHeartBurstTrigger((t) => t + 1);
                       }
                     }}
@@ -113,7 +115,6 @@ export default function Index() {
 
           <SuggestionsList sessionId={session.sessionId} refreshKey={suggestionsRefreshKey} />
 
-          {/* Rank reorder hint for voted cards */}
           {todayVotes.length > 0 && (
             <p className="text-center text-[11px] text-muted-foreground mt-2 mb-4">
               투표 후 순위가 바뀔 수 있어요 ↕️
