@@ -1,3 +1,5 @@
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import type { Gifticon } from '@/hooks/useGifticons';
 
 interface RankingCardProps {
@@ -38,6 +40,7 @@ function getRankChange(currentRank: number, prevRank: number | null): JSX.Elemen
 }
 
 export default function RankingCard({ gifticon, rank, tab, voted, canVote, onVote }: RankingCardProps) {
+  const [animateCount, setAnimateCount] = useState(false);
   const voteCount = tab === 'want' ? gifticon.vote_count_want : gifticon.vote_count_bad;
   const prevRank = tab === 'want' ? gifticon.prev_rank_want : gifticon.prev_rank_bad;
 
@@ -51,6 +54,16 @@ export default function RankingCard({ gifticon, rank, tab, voted, canVote, onVot
           : 'text-muted-foreground text-[20px]';
 
   const brandInitial = gifticon.brand.charAt(0);
+
+  const handleVote = () => {
+    if (voted || !canVote) {
+      onVote();
+      return;
+    }
+    setAnimateCount(true);
+    setTimeout(() => setAnimateCount(false), 300);
+    onVote();
+  };
 
   // Vote button states
   let voteEmoji: string;
@@ -88,7 +101,24 @@ export default function RankingCard({ gifticon, rank, tab, voted, canVote, onVot
   }
 
   return (
-    <div className="bg-card rounded-2xl shadow-sm mx-4 mb-2 px-4 py-3 flex items-center gap-3 min-h-[80px] transition-all duration-200">
+    <div className="bg-card rounded-2xl shadow-sm mx-4 mb-2 px-4 py-3 flex items-center gap-3 min-h-[80px] transition-all duration-200 relative">
+      {/* Voted badge */}
+      <AnimatePresence>
+        {voted && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="absolute top-2 right-2"
+          >
+            <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded-full ${
+              tab === 'want' ? 'bg-primary/10 text-primary' : 'bg-secondary/10 text-secondary'
+            }`}>
+              ✓ 투표함
+            </span>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Rank */}
       <div className="flex flex-col items-center w-10 flex-shrink-0">
         <span className={`font-bold leading-none ${rankColor}`}>{rank}</span>
@@ -97,7 +127,6 @@ export default function RankingCard({ gifticon, rank, tab, voted, canVote, onVot
 
       {/* Product + Brand logo */}
       <div className="relative w-14 h-14 flex-shrink-0">
-        {/* Big circle - product image */}
         <div className="w-14 h-14 rounded-full overflow-hidden flex items-center justify-center"
           style={{ background: '#f3f3f3', border: '1.5px solid #eee' }}>
           {gifticon.product_image_url ? (
@@ -120,7 +149,6 @@ export default function RankingCard({ gifticon, rank, tab, voted, canVote, onVot
             {brandInitial}
           </span>
         </div>
-        {/* Small circle - brand logo */}
         {gifticon.brand_logo_url && (
           <div className="absolute rounded-full overflow-hidden bg-white flex items-center justify-center"
             style={{ bottom: '-2px', right: '-2px', width: '22px', height: '22px', border: '2px solid white', boxShadow: '0 1px 3px rgba(0,0,0,0.15)' }}>
@@ -156,12 +184,19 @@ export default function RankingCard({ gifticon, rank, tab, voted, canVote, onVot
 
       {/* Vote */}
       <button
-        onClick={onVote}
+        onClick={handleVote}
         disabled={voted || !canVote}
         className={`flex flex-col items-center min-w-[56px] min-h-[44px] justify-center ${voteStyle}`}
       >
         <span className="text-xl">{voteEmoji}</span>
-        <span className={`text-xs font-medium ${voted ? '' : ''}`}>{voteCount}</span>
+        <motion.span
+          key={voteCount}
+          animate={animateCount ? { scale: [1, 1.4, 1] } : {}}
+          transition={{ duration: 0.3 }}
+          className="text-xs font-medium"
+        >
+          {voteCount}
+        </motion.span>
         <span className="text-[10px]">{voteLabel}</span>
       </button>
     </div>
