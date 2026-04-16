@@ -73,7 +73,7 @@ export default function RankingCard({ gifticon, rank, tab, voted, canVote, onVot
   if (tab === 'want') {
     if (voted) {
       voteEmoji = '❤️';
-      voteLabel = '';
+      voteLabel = '투표완료!';
       voteStyle = 'text-primary';
     } else if (!canVote) {
       voteEmoji = '🤍';
@@ -87,7 +87,7 @@ export default function RankingCard({ gifticon, rank, tab, voted, canVote, onVot
   } else {
     if (voted) {
       voteEmoji = '😱';
-      voteLabel = '';
+      voteLabel = '공감완료!';
       voteStyle = 'text-secondary';
     } else if (!canVote) {
       voteEmoji = '😬';
