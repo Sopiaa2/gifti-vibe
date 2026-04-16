@@ -17,8 +17,9 @@ function getKSTDate(): string {
 
 export function useVote(
   sessionId: string,
-  remainingVotes: number,
-  consumeVote: () => Promise<void>,
+  remainingWantVotes: number,
+  remainingBadVotes: number,
+  consumeVote: (voteType: 'want' | 'bad') => Promise<void>,
   refreshSession: () => Promise<void>,
   optimisticVote: (id: string, type: 'want' | 'bad') => void,
   revertVote: (id: string, type: 'want' | 'bad') => void
@@ -54,6 +55,8 @@ export function useVote(
         return;
       }
 
+      const remaining = voteType === 'want' ? remainingWantVotes : remainingBadVotes;
+
       // Re-fetch session from DB to get accurate vote count
       const todayKST = getKSTDate();
       const { data: sessionData } = await supabase
@@ -64,24 +67,25 @@ export function useVote(
 
       if (!sessionData) return;
 
-      let currentUsed = sessionData.daily_votes_used;
+      const field = voteType === 'want' ? 'want_votes_used' : 'bad_votes_used';
+      let currentUsed = (sessionData as any)[field] ?? 0;
 
-      // Reset if new day
       if (sessionData.last_vote_date !== todayKST) {
         currentUsed = 0;
         await supabase
           .from('user_sessions')
-          .update({ daily_votes_used: 0, last_vote_date: todayKST })
+          .update({ daily_votes_used: 0, want_votes_used: 0, bad_votes_used: 0, last_vote_date: todayKST } as any)
           .eq('session_id', sessionId);
       }
 
-      if (currentUsed >= sessionData.daily_votes_limit) {
-        toast('오늘 투표를 모두 사용했어요 🎟️ 자정에 충전돼요!');
+      const limit = 2;
+      if (currentUsed >= limit) {
+        const label = voteType === 'want' ? '받고싶어요' : '이건쫌';
+        toast(`${label} 투표를 모두 사용했어요 🎟️ 자정에 충전돼요!`);
         await refreshSession();
         return;
       }
 
-      // Now do optimistic UI
       optimisticVote(gifticonId, voteType);
       setVotedIds((prev) => new Set(prev).add(key));
       setTodayVotes((prev) => [...prev, { gifticon_id: gifticonId, vote_type: voteType, gifticon_name: name, gifticon_brand: brand }]);
@@ -94,11 +98,11 @@ export function useVote(
         });
         if (voteError) throw voteError;
 
-        const field = voteType === 'want' ? 'vote_count_want' : 'vote_count_bad';
-        const { data: current } = await supabase.from('gifticons').select(field).eq('id', gifticonId).single();
+        const voteField = voteType === 'want' ? 'vote_count_want' : 'vote_count_bad';
+        const { data: current } = await supabase.from('gifticons').select(voteField).eq('id', gifticonId).single();
         if (current) {
           const updateData: Record<string, string | number> = {
-            [field]: (current as Record<string, number>)[field] + 1,
+            [voteField]: (current as Record<string, number>)[voteField] + 1,
             updated_at: new Date().toISOString(),
           };
           await supabase
@@ -107,9 +111,10 @@ export function useVote(
             .eq('id', gifticonId);
         }
 
-        await consumeVote();
+        await consumeVote(voteType);
         await refreshSession();
-        toast('투표 완료! 🎟️ 1장 사용', { duration: 2000 });
+        const label = voteType === 'want' ? '받고싶어요' : '이건쫌';
+        toast(`${label} 투표 완료! 🎟️ 1장 사용`, { duration: 2000 });
       } catch {
         revertVote(gifticonId, voteType);
         setVotedIds((prev) => {
@@ -122,7 +127,7 @@ export function useVote(
         toast('잠시 후 다시 시도해주세요');
       }
     },
-    [sessionId, votedIds, consumeVote, refreshSession, optimisticVote, revertVote]
+    [sessionId, votedIds, remainingWantVotes, remainingBadVotes, consumeVote, refreshSession, optimisticVote, revertVote]
   );
 
   return { vote, todayVotes, votedIds };

@@ -132,28 +132,34 @@ export type Database = {
       }
       user_sessions: {
         Row: {
+          bad_votes_used: number
           created_at: string
           daily_votes_limit: number
           daily_votes_used: number
           is_open_event: boolean
           last_vote_date: string | null
           session_id: string
+          want_votes_used: number
         }
         Insert: {
+          bad_votes_used?: number
           created_at?: string
           daily_votes_limit?: number
           daily_votes_used?: number
           is_open_event?: boolean
           last_vote_date?: string | null
           session_id: string
+          want_votes_used?: number
         }
         Update: {
+          bad_votes_used?: number
           created_at?: string
           daily_votes_limit?: number
           daily_votes_used?: number
           is_open_event?: boolean
           last_vote_date?: string | null
           session_id?: string
+          want_votes_used?: number
         }
         Relationships: []
       }
