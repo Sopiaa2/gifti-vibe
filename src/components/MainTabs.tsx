@@ -5,7 +5,7 @@ interface MainTabsProps {
 
 export default function MainTabs({ activeTab, onTabChange }: MainTabsProps) {
   return (
-    <div className="sticky top-[88px] z-40 bg-card flex h-11 border-b border-border">
+    <div className="sticky <div className="sticky top-[124px] z-40 bg-card flex h-11 border-b border-border"> z-40 bg-card flex h-11 border-b border-border">
       <button
         className={`flex-1 text-sm font-semibold transition-colors min-h-[44px] ${
           activeTab === 'want'
