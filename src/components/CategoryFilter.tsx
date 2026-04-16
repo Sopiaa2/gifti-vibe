@@ -17,12 +17,12 @@ export default function CategoryFilter({
       : 'bg-secondary text-secondary-foreground';
 
   return (
-    <div className="sticky top-[104px] z-30 bg-background h-11 flex items-center px-4 overflow-x-auto hide-scrollbar gap-2">
+    <div className="sticky top-[119px] z-30 bg-background h-10 flex items-center px-4 overflow-x-auto hide-scrollbar gap-2">
       {categories.map((cat) => (
         <button
           key={cat.slug}
           onClick={() => onCategoryChange(cat.slug)}
-          className={`flex-shrink-0 px-3 py-1.5 rounded-full text-xs font-medium transition-colors min-h-[32px] ${
+          className={`flex-shrink-0 px-3 py-1 rounded-full text-xs font-medium transition-colors min-h-[28px] ${
             activeCategory === cat.slug
               ? activeClasses
               : 'bg-muted text-muted-foreground'

@@ -67,10 +67,9 @@ export default function Index() {
     <div className="min-h-screen bg-background max-w-[480px] mx-auto relative">
       <Header remainingWantVotes={session.remainingWantVotes} remainingBadVotes={session.remainingBadVotes} />
 
-      <div className="pt-[40px]">
-        <EventBanner participantCount={participantCount} />
-        <HeroSection totalVotes={totalVotes} />
+      <EventBanner participantCount={participantCount} />
 
+      <div className="pt-[75px]">
         <MainTabs activeTab={activeTab} onTabChange={setActiveTab} />
         <CategoryFilter
           categories={categories}
