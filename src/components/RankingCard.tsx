@@ -73,7 +73,7 @@ export default function RankingCard({ gifticon, rank, tab, voted, canVote, onVot
   if (tab === 'want') {
     if (voted) {
       voteEmoji = '❤️';
-      voteLabel = '투표완료!';
+      voteLabel = '';
       voteStyle = 'text-primary';
     } else if (!canVote) {
       voteEmoji = '🤍';
@@ -87,7 +87,7 @@ export default function RankingCard({ gifticon, rank, tab, voted, canVote, onVot
   } else {
     if (voted) {
       voteEmoji = '😱';
-      voteLabel = '공감완료!';
+      voteLabel = '';
       voteStyle = 'text-secondary';
     } else if (!canVote) {
       voteEmoji = '😬';
@@ -203,7 +203,7 @@ export default function RankingCard({ gifticon, rank, tab, voted, canVote, onVot
             {voteCount}
           </motion.span>
         </button>
-        <span className={`text-[10px] leading-none whitespace-nowrap ${voteStyle}`}>{voteLabel}</span>
+        {voteLabel && <span className={`text-[10px] leading-none whitespace-nowrap ${voteStyle}`}>{voteLabel}</span>}
       </div>
     </div>
   );
