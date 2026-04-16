@@ -62,7 +62,7 @@ export default function Index() {
     <div className="min-h-screen bg-background max-w-[480px] mx-auto relative">
       <Header remainingVotes={session.remainingVotes} />
 
-      <div className="pt-14">
+      <div className="pt-[72px]">
         <EventBanner participantCount={participantCount} />
         <HeroSection totalVotes={totalVotes} />
 
