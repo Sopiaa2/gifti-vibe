@@ -24,7 +24,7 @@ export default function MainTabs({ activeTab, onTabChange }: MainTabsProps) {
         }`}
         onClick={() => onTabChange('bad')}
       >
-        이건 좀... 😬
+        별로예요 😬
       </button>
     </div>
   );

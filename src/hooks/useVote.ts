@@ -80,7 +80,7 @@ export function useVote(
 
       const limit = 2;
       if (currentUsed >= limit) {
-        const label = voteType === 'want' ? '받고싶어요' : '이건쫌';
+        const label = voteType === 'want' ? '받고싶어요' : '별로예요';
         toast(`${label} 투표를 모두 사용했어요 🎟️ 자정에 충전돼요!`);
         await refreshSession();
         return;
@@ -113,7 +113,7 @@ export function useVote(
 
         await consumeVote(voteType);
         await refreshSession();
-        const label = voteType === 'want' ? '받고싶어요' : '이건쫌';
+        const label = voteType === 'want' ? '받고싶어요' : '별로예요';
         toast(`${label} 투표 완료! 🎟️ 1장 사용`, { duration: 2000 });
       } catch {
         revertVote(gifticonId, voteType);

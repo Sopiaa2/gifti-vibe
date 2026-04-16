@@ -162,7 +162,7 @@ export default function RankingCard({ gifticon, rank, tab, voted, canVote, onVot
             {gifticon.price.toLocaleString()}원
           </span>
           <span className="text-[11px] text-muted-foreground">
-            · {tab === 'want' ? '원하는 사람' : '이건 좀...'}
+            · {tab === 'want' ? '원하는 사람' : '별로예요'}
           </span>
         </div>
       </div>
