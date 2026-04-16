@@ -124,6 +124,7 @@ export default function Index() {
 
       <SuggestButton sessionId={session.sessionId} onSuggestionAdded={handleSuggestionAdded} />
       <ShareButton />
+      <HeartBurst trigger={heartBurstTrigger} />
       
       <BottomNav activeItem="home" />
     </div>
