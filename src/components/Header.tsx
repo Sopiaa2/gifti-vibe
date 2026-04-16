@@ -6,49 +6,37 @@ interface HeaderProps {
   remainingBadVotes: number;
 }
 
-function TicketRow({ icon, label, remaining }: { icon: string; label: string; remaining: number }) {
-  const statusText =
-    remaining === 2
-      ? `오늘 2번 투표할 수 있어요`
-      : remaining === 1
-        ? `오늘 1번 더 투표할 수 있어요`
-        : `모두 사용 · 자정에 초기화`;
-
+function TicketDots({ remaining }: { remaining: number }) {
   return (
-    <div className="flex items-center gap-1.5">
-      <span className="text-xs">{icon}</span>
-      <span className="text-[11px] font-medium text-card-foreground">{label}</span>
-      <div className="flex gap-0.5 ml-1">
-        <AnimatePresence mode="popLayout">
-          {remaining >= 1 && (
-            <motion.span
-              key="t1"
-              initial={{ opacity: 0, scale: 0.5 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.5, transition: { duration: 0.3 } }}
-              className="text-sm"
-            >🎟️</motion.span>
-          )}
-          {remaining >= 2 && (
-            <motion.span
-              key="t2"
-              initial={{ opacity: 0, scale: 0.5 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.5, transition: { duration: 0.3 } }}
-              className="text-sm"
-            >🎟️</motion.span>
-          )}
-          {remaining === 0 && (
-            <motion.span
-              key="t-empty"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="text-sm"
-            >🎫</motion.span>
-          )}
-        </AnimatePresence>
-      </div>
-      <span className="text-[10px] text-muted-foreground ml-auto">{statusText}</span>
+    <div className="flex gap-0.5">
+      <AnimatePresence mode="popLayout">
+        {remaining >= 1 && (
+          <motion.span
+            key="t1"
+            initial={{ opacity: 0, scale: 0.5 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.5, transition: { duration: 0.3 } }}
+            className="text-xs"
+          >🎟️</motion.span>
+        )}
+        {remaining >= 2 && (
+          <motion.span
+            key="t2"
+            initial={{ opacity: 0, scale: 0.5 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.5, transition: { duration: 0.3 } }}
+            className="text-xs"
+          >🎟️</motion.span>
+        )}
+        {remaining === 0 && (
+          <motion.span
+            key="t-empty"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="text-xs opacity-50"
+          >🎫</motion.span>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
@@ -64,16 +52,18 @@ export default function Header({ remainingWantVotes, remainingBadVotes }: Header
   };
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-card shadow-sm max-w-[480px] mx-auto">
+    <header
+      className="fixed top-0 left-0 right-0 z-50 shadow-sm max-w-[480px] mx-auto"
+      style={{ background: 'linear-gradient(180deg, hsl(0 80% 95%), hsl(0 0% 100%))' }}
+    >
       <div className="h-10 flex items-center justify-between px-4">
         <h1 className="text-lg font-bold text-primary">기프트랭크 🎁</h1>
-        <button onClick={handleTicketTap} className="min-h-[44px] flex items-center text-xs text-muted-foreground">
-          ℹ️
+        <button onClick={handleTicketTap} className="min-h-[44px] flex items-center gap-1.5">
+          <span className="text-[11px]">🏆</span>
+          <TicketDots remaining={remainingWantVotes} />
+          <span className="text-[11px] ml-1">😬</span>
+          <TicketDots remaining={remainingBadVotes} />
         </button>
-      </div>
-      <div className="px-4 pb-2 space-y-0.5">
-        <TicketRow icon="🏆" label="받고싶어요" remaining={remainingWantVotes} />
-        <TicketRow icon="😬" label="이건쫌" remaining={remainingBadVotes} />
       </div>
     </header>
   );
