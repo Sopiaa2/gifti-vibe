@@ -5,7 +5,7 @@ import { useGifticons } from '@/hooks/useGifticons';
 import { useVote } from '@/hooks/useVote';
 import Header from '@/components/Header';
 import EventBanner from '@/components/EventBanner';
-import HeroSection from '@/components/HeroSection';
+
 import MainTabs from '@/components/MainTabs';
 import CategoryFilter from '@/components/CategoryFilter';
 import RankingCard from '@/components/RankingCard';
@@ -42,11 +42,6 @@ export default function Index() {
     revertVote
   );
 
-  const totalVotes = useMemo(
-    () => gifticons.reduce((sum, g) => sum + g.vote_count_want + g.vote_count_bad, 0),
-    [gifticons]
-  );
-
   const sortedGifticons = useMemo(() => {
     const filtered = activeCategory === 'all'
       ? [...gifticons]
@@ -67,10 +62,9 @@ export default function Index() {
     <div className="min-h-screen bg-background max-w-[480px] mx-auto relative">
       <Header remainingWantVotes={session.remainingWantVotes} remainingBadVotes={session.remainingBadVotes} />
 
-      <div className="pt-[40px]">
-        <EventBanner participantCount={participantCount} />
-        <HeroSection totalVotes={totalVotes} />
+      <EventBanner participantCount={participantCount} />
 
+      <div className="pt-[75px]">
         <MainTabs activeTab={activeTab} onTabChange={setActiveTab} />
         <CategoryFilter
           categories={categories}

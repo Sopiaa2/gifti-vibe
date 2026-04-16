@@ -16,7 +16,7 @@ function TicketDots({ remaining }: { remaining: number }) {
             initial={{ opacity: 0, scale: 0.5 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.5, transition: { duration: 0.3 } }}
-            className="text-xs"
+            className="text-[10px]"
           >🎟️</motion.span>
         )}
         {remaining >= 2 && (
@@ -25,7 +25,7 @@ function TicketDots({ remaining }: { remaining: number }) {
             initial={{ opacity: 0, scale: 0.5 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.5, transition: { duration: 0.3 } }}
-            className="text-xs"
+            className="text-[10px]"
           >🎟️</motion.span>
         )}
         {remaining === 0 && (
@@ -33,7 +33,7 @@ function TicketDots({ remaining }: { remaining: number }) {
             key="t-empty"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="text-xs opacity-50"
+            className="text-[10px] opacity-40"
           >🎫</motion.span>
         )}
       </AnimatePresence>
@@ -52,16 +52,13 @@ export default function Header({ remainingWantVotes, remainingBadVotes }: Header
   };
 
   return (
-    <header
-      className="fixed top-0 left-0 right-0 z-50 shadow-sm max-w-[480px] mx-auto"
-      style={{ background: 'linear-gradient(180deg, hsl(0 80% 95%), hsl(0 0% 100%))' }}
-    >
-      <div className="h-10 flex items-center justify-between px-4">
-        <h1 className="text-lg font-bold text-primary">기프트랭크 🎁</h1>
+    <header className="fixed top-[32px] left-0 right-0 z-50 max-w-[480px] mx-auto bg-card border-b border-border">
+      <div className="h-11 flex items-center justify-between px-4">
+        <h1 className="text-base font-bold text-foreground">기프트랭크 🎁</h1>
         <button onClick={handleTicketTap} className="min-h-[44px] flex items-center gap-1.5">
-          <span className="text-[11px]">🏆</span>
+          <span className="text-[10px]">🏆</span>
           <TicketDots remaining={remainingWantVotes} />
-          <span className="text-[11px] ml-1">😬</span>
+          <span className="text-[10px] ml-1">😬</span>
           <TicketDots remaining={remainingBadVotes} />
         </button>
       </div>
