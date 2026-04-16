@@ -17,7 +17,7 @@ export default function CategoryFilter({
       : 'bg-secondary text-secondary-foreground';
 
   return (
-    <div className="sticky top-[119px] z-30 bg-background h-10 flex items-center px-4 overflow-x-auto hide-scrollbar gap-2">
+    <div className="sticky top-[132px] z-30 bg-background h-10 flex items-center px-4 overflow-x-auto hide-scrollbar gap-2">
       {categories.map((cat) => (
         <button
           key={cat.slug}

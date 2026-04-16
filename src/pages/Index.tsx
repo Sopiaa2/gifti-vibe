@@ -64,7 +64,7 @@ export default function Index() {
 
       <EventBanner participantCount={participantCount} />
 
-      <div className="pt-[75px]">
+      <div className="pt-[88px]">
         <MainTabs activeTab={activeTab} onTabChange={setActiveTab} />
         <CategoryFilter
           categories={categories}

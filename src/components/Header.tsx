@@ -52,7 +52,7 @@ export default function Header({ remainingWantVotes, remainingBadVotes }: Header
   };
 
   return (
-    <header className="fixed top-[32px] left-0 right-0 z-50 max-w-[480px] mx-auto bg-card border-b border-border">
+    <header className="fixed top-[44px] left-0 right-0 z-50 max-w-[480px] mx-auto bg-card border-b border-border">
       <div className="h-11 flex items-center justify-between px-4">
         <h1 className="text-base font-bold text-foreground">기프트랭크 🎁</h1>
         <button onClick={handleTicketTap} className="min-h-[44px] flex items-center gap-1.5">
