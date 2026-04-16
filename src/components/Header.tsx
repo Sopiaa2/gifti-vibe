@@ -45,7 +45,7 @@ export default function Header({ remainingWantVotes, remainingBadVotes }: Header
   const handleTicketTap = () => {
     const total = remainingWantVotes + remainingBadVotes;
     if (total > 0) {
-      toast(`받고싶어요 ${remainingWantVotes}표, 이건쫌 ${remainingBadVotes}표 남았어요 🕛`);
+      toast(`받고싶어요 ${remainingWantVotes}표, 별로예요 ${remainingBadVotes}표 남았어요 🕛`);
     } else {
       toast('오늘 투표를 모두 사용했어요 · 자정에 초기화 🕛');
     }

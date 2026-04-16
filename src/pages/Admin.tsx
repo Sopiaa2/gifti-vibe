@@ -154,7 +154,7 @@ export default function Admin() {
             </tbody>
           </table>
         </Section>
-        <Section title="👎 이건 좀 TOP5">
+        <Section title="👎 별로예요 TOP5">
           <table className="w-full text-sm">
             <thead><tr className="border-b text-left text-gray-500"><th className="p-2">#</th><th className="p-2">브랜드</th><th className="p-2">상품명</th><th className="p-2 text-right">투표</th></tr></thead>
             <tbody>
