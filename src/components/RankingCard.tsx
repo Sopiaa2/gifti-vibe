@@ -73,7 +73,7 @@ export default function RankingCard({ gifticon, rank, tab, voted, canVote, onVot
   if (tab === 'want') {
     if (voted) {
       voteEmoji = '❤️';
-      voteLabel = '투표완료!';
+      voteLabel = '';
       voteStyle = 'text-primary';
     } else if (!canVote) {
       voteEmoji = '🤍';
@@ -87,7 +87,7 @@ export default function RankingCard({ gifticon, rank, tab, voted, canVote, onVot
   } else {
     if (voted) {
       voteEmoji = '😱';
-      voteLabel = '공감완료!';
+      voteLabel = '';
       voteStyle = 'text-secondary';
     } else if (!canVote) {
       voteEmoji = '😬';
@@ -102,22 +102,7 @@ export default function RankingCard({ gifticon, rank, tab, voted, canVote, onVot
 
   return (
     <div className="bg-card rounded-2xl shadow-sm mx-4 mb-2 px-4 py-3 flex items-center gap-3 min-h-[80px] transition-all duration-200 relative">
-      {/* Voted badge */}
-      <AnimatePresence>
-        {voted && (
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            className="absolute top-2 right-2"
-          >
-            <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded-full ${
-              tab === 'want' ? 'bg-primary/10 text-primary' : 'bg-secondary/10 text-secondary'
-            }`}>
-              ✓ 투표함
-            </span>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {/* Voted indicator removed */}
 
       {/* Rank */}
       <div className="flex flex-col items-center w-10 flex-shrink-0">
@@ -203,7 +188,7 @@ export default function RankingCard({ gifticon, rank, tab, voted, canVote, onVot
             {voteCount}
           </motion.span>
         </button>
-        <span className={`text-[10px] leading-none whitespace-nowrap ${voteStyle}`}>{voteLabel}</span>
+        {voteLabel && <span className={`text-[10px] leading-none whitespace-nowrap ${voteStyle}`}>{voteLabel}</span>}
       </div>
     </div>
   );
