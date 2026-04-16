@@ -109,6 +109,7 @@ export function useVote(
 
         await consumeVote();
         await refreshSession();
+        toast('투표 완료! 🎟️ 1장 사용', { duration: 2000 });
       } catch {
         revertVote(gifticonId, voteType);
         setVotedIds((prev) => {
