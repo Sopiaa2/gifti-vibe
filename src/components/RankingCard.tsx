@@ -156,7 +156,16 @@ export default function RankingCard({ gifticon, rank, tab, voted, canVote, onVot
           <span className="text-xs text-muted-foreground">{gifticon.brand}</span>
           {gifticon.trend_badge && <TrendBadge badge={gifticon.trend_badge} />}
         </div>
-        <p className="text-base font-bold text-card-foreground truncate">{gifticon.name}</p>
+        <p
+          className="text-base font-bold text-card-foreground overflow-hidden"
+          style={{
+            display: '-webkit-box',
+            WebkitLineClamp: 2,
+            WebkitBoxOrient: 'vertical',
+          }}
+        >
+          {gifticon.name}
+        </p>
         <div className="flex items-center gap-1">
           <span className={`text-sm font-medium ${tab === 'want' ? 'text-primary' : 'text-muted-foreground'}`}>
             {gifticon.price.toLocaleString()}원
