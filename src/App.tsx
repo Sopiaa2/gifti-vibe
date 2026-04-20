@@ -8,6 +8,7 @@ import NotFound from "./pages/NotFound.tsx";
 import Admin from "./pages/Admin.tsx";
 import Wish from "./pages/Wish.tsx";
 import WishView from "./pages/WishView.tsx";
+import Recommend from "./pages/Recommend.tsx";
 
 const queryClient = new QueryClient();
 
@@ -22,6 +23,7 @@ const App = () => (
           <Route path="/admin" element={<Admin />} />
           <Route path="/wish" element={<Wish />} />
           <Route path="/wish/:wishId" element={<WishView />} />
+          <Route path="/recommend" element={<Recommend />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
