@@ -55,6 +55,7 @@ export type Database = {
           updated_at: string
           vote_count_bad: number
           vote_count_want: number
+          wish_count: number
         }
         Insert: {
           brand: string
@@ -72,6 +73,7 @@ export type Database = {
           updated_at?: string
           vote_count_bad?: number
           vote_count_want?: number
+          wish_count?: number
         }
         Update: {
           brand?: string
@@ -89,6 +91,7 @@ export type Database = {
           updated_at?: string
           vote_count_bad?: number
           vote_count_want?: number
+          wish_count?: number
         }
         Relationships: [
           {
@@ -194,6 +197,30 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      wishlists: {
+        Row: {
+          created_at: string
+          gifticon_ids: string[]
+          id: string
+          view_count: number
+          wish_id: string
+        }
+        Insert: {
+          created_at?: string
+          gifticon_ids?: string[]
+          id?: string
+          view_count?: number
+          wish_id: string
+        }
+        Update: {
+          created_at?: string
+          gifticon_ids?: string[]
+          id?: string
+          view_count?: number
+          wish_id?: string
+        }
+        Relationships: []
       }
     }
     Views: {
