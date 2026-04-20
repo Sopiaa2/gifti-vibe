@@ -171,6 +171,11 @@ export default function RankingCard({ gifticon, rank, tab, voted, canVote, onVot
             {gifticon.price.toLocaleString()}원
           </span>
         </div>
+        {gifticon.wish_count > 0 && (
+          <p className="text-[10px] text-muted-foreground mt-0.5">
+            🎁 {gifticon.wish_count}명이 위시리스트에 담았어요
+          </p>
+        )}
       </div>
 
       {/* Vote */}
