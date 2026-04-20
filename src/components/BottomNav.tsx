@@ -1,13 +1,16 @@
+import { useNavigate } from 'react-router-dom';
+
 interface BottomNavProps {
   activeItem: string;
 }
 
 export default function BottomNav({ activeItem }: BottomNavProps) {
+  const navigate = useNavigate();
   const items = [
-    { id: 'home', icon: '🏠', label: '홈' },
-    { id: 'rank', icon: '🏆', label: '순위' },
-    { id: 'vote', icon: '🗳️', label: '투표' },
-    { id: 'my', icon: '👤', label: '마이' },
+    { id: 'home', icon: '🏠', label: '홈', path: '/' },
+    { id: 'rank', icon: '🏆', label: '순위', path: '/' },
+    { id: 'wish', icon: '🎁', label: '위시', path: '/wish' },
+    { id: 'my', icon: '👤', label: '마이', path: '/' },
   ];
 
   return (
@@ -18,6 +21,7 @@ export default function BottomNav({ activeItem }: BottomNavProps) {
       {items.map((item) => (
         <button
           key={item.id}
+          onClick={() => navigate(item.path)}
           className={`flex flex-col items-center justify-center min-h-[44px] min-w-[44px] text-xs ${
             activeItem === item.id ? 'text-primary' : 'text-muted-foreground'
           }`}

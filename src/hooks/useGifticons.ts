@@ -15,6 +15,7 @@ export interface Gifticon {
   vote_count_bad: number;
   prev_rank_want: number | null;
   prev_rank_bad: number | null;
+  wish_count: number;
   updated_at: string;
   created_at: string;
 }
