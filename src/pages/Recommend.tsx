@@ -86,7 +86,9 @@ export default function Recommend() {
 
   return (
     <div className="min-h-screen bg-background pb-[80px] max-w-[480px] mx-auto">
-      <Header />
+      <header className="h-14 flex items-center justify-center border-b border-border bg-card sticky top-0 z-40">
+        <h1 className="font-bold text-base">🎯 선물 유형 찾기</h1>
+      </header>
 
       <div className="px-4 py-6">
         <AnimatePresence mode="wait">
@@ -259,7 +261,14 @@ export default function Recommend() {
         </AnimatePresence>
       </div>
 
-      <BottomNav activeItem="recommend" />
+      <BottomNavInline />
+    </div>
+  );
+}
+
+function BottomNavInline() {
+  const BottomNav = require('@/components/BottomNav').default;
+  return <BottomNav activeItem="recommend" />;
     </div>
   );
 }
