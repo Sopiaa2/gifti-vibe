@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { toast } from 'sonner';
+import BottomNav from '@/components/BottomNav';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 
@@ -261,14 +262,7 @@ export default function Recommend() {
         </AnimatePresence>
       </div>
 
-      <BottomNavInline />
-    </div>
-  );
-}
-
-function BottomNavInline() {
-  const BottomNav = require('@/components/BottomNav').default;
-  return <BottomNav activeItem="recommend" />;
+      <BottomNav activeItem="recommend" />
     </div>
   );
 }
