@@ -10,7 +10,7 @@ export default function BottomNav({ activeItem }: BottomNavProps) {
     { id: 'home', icon: '🏠', label: '홈', path: '/' },
     { id: 'rank', icon: '🏆', label: '순위', path: '/' },
     { id: 'wish', icon: '🎁', label: '위시', path: '/wish' },
-    { id: 'my', icon: '👤', label: '마이', path: '/' },
+    { id: 'recommend', icon: '🎯', label: '추천', path: '/recommend' },
   ];
 
   return (
