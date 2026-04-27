@@ -5,10 +5,6 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import Index from "./pages/Index.tsx";
 import NotFound from "./pages/NotFound.tsx";
-import Admin from "./pages/Admin.tsx";
-import Wish from "./pages/Wish.tsx";
-import WishView from "./pages/WishView.tsx";
-import Recommend from "./pages/Recommend.tsx";
 
 const queryClient = new QueryClient();
 
@@ -20,10 +16,6 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
-          <Route path="/admin" element={<Admin />} />
-          <Route path="/wish" element={<Wish />} />
-          <Route path="/wish/:wishId" element={<WishView />} />
-          <Route path="/recommend" element={<Recommend />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
