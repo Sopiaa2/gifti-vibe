@@ -1,0 +1,6 @@
+DROP TABLE IF EXISTS public.votes CASCADE;
+DROP TABLE IF EXISTS public.suggestions CASCADE;
+DROP TABLE IF EXISTS public.user_sessions CASCADE;
+DROP TABLE IF EXISTS public.wishlists CASCADE;
+DROP TABLE IF EXISTS public.gifticons CASCADE;
+DROP TABLE IF EXISTS public.categories CASCADE;
