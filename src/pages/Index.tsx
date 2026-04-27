@@ -8,7 +8,7 @@ export default function Index() {
         <div className="mb-6 flex items-center gap-2">
           <span
             className="text-4xl font-bold bg-clip-text text-transparent"
-            style={{ backgroundImage: "linear-gradient(90deg, #FF6B6B, #FF8C42)" }}
+            style={{ backgroundImage: "linear-gradient(90deg, #7C3AED, #A855F7)" }}
           >
             온도
           </span>
@@ -27,8 +27,8 @@ export default function Index() {
         <div
           className="w-32 h-32 rounded-full mb-12 flex items-center justify-center shadow-lg"
           style={{
-            background: "linear-gradient(135deg, #FF6B6B 0%, #FF8C42 100%)",
-            boxShadow: "0 20px 50px -12px rgba(255, 107, 107, 0.45)",
+            background: "linear-gradient(135deg, #7C3AED 0%, #A855F7 100%)",
+            boxShadow: "0 20px 50px -12px rgba(124, 58, 237, 0.45)",
           }}
         >
           <span className="text-6xl" aria-hidden>💝</span>
@@ -39,8 +39,8 @@ export default function Index() {
           <Button
             className="w-full h-14 text-base font-semibold rounded-2xl text-white border-0 shadow-md hover:opacity-95 transition-opacity"
             style={{
-              background: "linear-gradient(90deg, #FF6B6B 0%, #FF8C42 100%)",
-              boxShadow: "0 10px 25px -8px rgba(255, 107, 107, 0.5)",
+              background: "linear-gradient(90deg, #7C3AED 0%, #A855F7 100%)",
+              boxShadow: "0 10px 25px -8px rgba(124, 58, 237, 0.5)",
             }}
           >
             좋아하는 유튜버 응원하기 →
@@ -49,7 +49,7 @@ export default function Index() {
           <Button
             variant="outline"
             className="w-full h-14 text-base font-semibold rounded-2xl bg-white hover:bg-muted/40 transition-colors"
-            style={{ borderColor: "#FF6B6B", color: "#FF6B6B" }}
+            style={{ borderColor: "#7C3AED", color: "#7C3AED" }}
           >
             내 채널 등록하기
           </Button>

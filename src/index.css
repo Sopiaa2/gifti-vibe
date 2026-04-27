@@ -15,10 +15,10 @@
     --popover: 0 0% 100%;
     --popover-foreground: 0 0% 10%;
 
-    --primary: 0 100% 70.6%;
+    --primary: 262 83% 58%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 24 100% 63.1%;
+    --secondary: 271 91% 65%;
     --secondary-foreground: 0 0% 100%;
 
     --muted: 0 0% 96.1%;
@@ -32,13 +32,13 @@
 
     --border: 0 0% 91.4%;
     --input: 0 0% 91.4%;
-    --ring: 0 100% 70.6%;
+    --ring: 262 83% 58%;
 
     --radius: 1rem;
 
-    --coral: 0 100% 70.6%;
+    --coral: 262 83% 58%;
     --coral-foreground: 0 0% 100%;
-    --orange: 24 100% 63.1%;
+    --orange: 271 91% 65%;
     --orange-foreground: 0 0% 100%;
   }
 }
