@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 
 export default function Index() {
   return (
@@ -53,6 +54,13 @@ export default function Index() {
           >
             내 채널 등록하기
           </Button>
+
+          <Link
+            to="/recommend"
+            className="block w-full h-12 rounded-2xl font-medium text-sm flex items-center justify-center bg-muted/50 hover:bg-muted transition-colors text-foreground"
+          >
+            🎁 선물 유형 찾기 (밸런스게임)
+          </Link>
         </div>
 
         <p className="mt-10 text-xs text-muted-foreground">
